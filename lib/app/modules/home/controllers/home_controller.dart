@@ -24,7 +24,6 @@ class HomeController extends GetxController {
       middleName: mnameCtrlr.text,
       lastName: lnameCtrlr.text
     );
-
     await repository.saveEmployee(newEmployee).then((employee) {
       listOfEmployee.add(employee);
       reset();

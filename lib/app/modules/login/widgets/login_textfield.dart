@@ -19,21 +19,29 @@ class LoginTextfield extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        style: TextStyle(
+          letterSpacing: 1
+        ),
         decoration: InputDecoration(
-          label: Text(label),
+          fillColor: Colors.white,
+          filled: true,
+          hintText: label,
+          hintStyle: TextStyle(
+            letterSpacing: 1
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: Colors.green
-            )
+            // borderSide: BorderSide(
+            //   width: 1,
+            //   color: Colors.green
+            // )
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: Colors.green
-            )
+            borderRadius: BorderRadius.circular(12),
+            // borderSide: BorderSide(
+            //   width: 1,
+            //   color: Colors.green
+            // )
           )
         ),
       ),
