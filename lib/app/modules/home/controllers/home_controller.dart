@@ -1,12 +1,12 @@
-import 'package:davnor_get/app/data/model/employee.dart';
-import 'package:davnor_get/app/data/model/user.dart';
+import 'package:davnor_get/app/data/account/model/employee.dart';
+import 'package:davnor_get/app/data/account/model/user.dart';
 import 'package:davnor_get/app/data/services/repository.dart';
 import 'package:davnor_get/app/data/shared/shared_account.dart';
 import 'package:davnor_get/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with StateMixin<List<Employee>> {
   var repository = Repository();
   var fnameCtrlr = TextEditingController();
   var mnameCtrlr = TextEditingController();
@@ -65,9 +65,10 @@ class HomeController extends GetxController {
     Get.back();
   }
   var listOfEmployee = <Employee>[].obs;
-  Future getEmployee() async {
-    await repository.getEmployees().then((employees) {
-      listOfEmployee.assignAll(employees);
+  Future<List<Employee>> getEmployee() async {
+    return await repository.getEmployees(user.value.token!).then((employees) {
+      // listOfEmployee.assignAll(employees);
+      return employees;
     }, onError: (error) {
       
     });
@@ -90,11 +91,21 @@ class HomeController extends GetxController {
       );
     }
   }
+
+  Future initEmployee() async {
+    try {
+      change(null, status: RxStatus.loading());
+      await getUser();
+      var listOfEmployee = await getEmployee();
+      change(listOfEmployee, status: RxStatus.success());
+    } catch (e) {
+      change(null, status: RxStatus.error());
+    }
+  }
   
   @override
   void onInit() async {
-    await getUser();
-    await getEmployee();
+    await initEmployee();
     super.onInit();
   }
 }

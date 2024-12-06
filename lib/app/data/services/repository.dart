@@ -1,5 +1,5 @@
-import 'package:davnor_get/app/data/model/employee.dart';
-import 'package:davnor_get/app/data/model/user.dart';
+import 'package:davnor_get/app/data/account/model/employee.dart';
+import 'package:davnor_get/app/data/account/model/user.dart';
 import 'package:davnor_get/app/data/services/api_services.dart';
 import 'package:davnor_get/app/data/services/services_config.dart';
 
@@ -15,9 +15,9 @@ class Repository {
     return User.fromJson(data);
   }
 
-  Future<List<Employee>> getEmployees() async {
+  Future<List<Employee>> getEmployees(String token) async {
     var path = ServicesConfig().endpoint("tRSPEmployees");
-    List<dynamic> data = await ApiServices().getDio(path);
+    List<dynamic> data = await ApiServices().getDio(path, token);
     return data.map((e) => Employee.fromMap(e)).toList();
   }
 

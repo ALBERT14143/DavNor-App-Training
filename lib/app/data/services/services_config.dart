@@ -1,6 +1,6 @@
 class ServicesConfig {
-  var local_host = "https://172.16.188.48";
-  var live_host = "https://172.16.188.48";
+  var local_host = "https://172.16.188.96";
+  var live_host = "https://172.16.188.96";
   var isLive = false;
 
   String endpoint(String path) {

@@ -1,4 +1,4 @@
-import 'package:davnor_get/app/data/model/user.dart';
+import 'package:davnor_get/app/data/account/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedAccount {

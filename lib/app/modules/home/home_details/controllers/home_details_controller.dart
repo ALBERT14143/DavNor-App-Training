@@ -1,4 +1,4 @@
-import 'package:davnor_get/app/data/model/employee.dart';
+import 'package:davnor_get/app/data/account/model/employee.dart';
 import 'package:get/get.dart';
 
 class HomeDetailsController extends GetxController {

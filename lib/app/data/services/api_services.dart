@@ -14,9 +14,16 @@ class ApiServices {
     }
   }
 
-  Future<dynamic> getDio(String path) async {
+  Future<dynamic> getDio(String path, String token) async {
     try {
-      var response = await Dio().get(path);
+      var response = await Dio().get(
+        path,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token"
+          }
+        )
+      );
       return response.data;
     } catch (e) {
       rethrow;

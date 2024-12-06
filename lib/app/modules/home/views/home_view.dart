@@ -8,7 +8,7 @@ class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
+    // final controller = Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
         title: Obx(() {
@@ -22,55 +22,99 @@ class HomeView extends GetView<HomeController> {
               controller.logout();
             }, 
             icon: Icon(Icons.logout)
+          ),
+
+          IconButton(
+            onPressed: () {
+              controller.initEmployee();
+            }, 
+            icon: Icon(Icons.refresh)
           )
         ],
       ),
-      body: Obx(() {
-          return Stack(
-            children: [
-              ListView.builder(
-                itemCount: controller.listOfEmployee.length,
-                itemBuilder: (context, index) {
-                  var employee = controller.listOfEmployee[index];
-                  return Card(
-                    child: ListTile(
-                      leading: Icon(Icons.check),
-                      title: Text(employee.fullname()),
-                      subtitle: Text(employee.sex ?? "N/A"),
-                      trailing: IconButton(
-                        onPressed: (){
-                          controller.removeEmployee(index, employee.recNo!);
-                        }, 
-                        icon: Icon(Icons.delete, color: Colors.red[400])
-                      ),
-                      onTap: () {
-                        controller.selectEmployee(employee);
-                      },
-                    )
-                  );
-                  
-                },
-              ),
-              Visibility(
-                visible: controller.isDeleting.value,
-                child: Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.6),
-                    child: Center(
-                      child: CircularProgressIndicator(color: Colors.white),
+      body: controller.obx((state) {
+        return Stack(
+          children: [
+            ListView.builder(
+              itemCount: state != null ? state.length : 0,
+              itemBuilder: (context, index) {
+                var employee = state![index];
+                return Card(
+                  child: ListTile(
+                    leading: Icon(Icons.check),
+                    title: Text(employee.fullname()),
+                    subtitle: Text(employee.sex ?? "N/A"),
+                    trailing: IconButton(
+                      onPressed: (){
+                        controller.removeEmployee(index, employee.recNo!);
+                      }, 
+                      icon: Icon(Icons.delete, color: Colors.red[400])
                     ),
+                    onTap: () {
+                      controller.selectEmployee(employee);
+                    },
+                  )
+                );
+                
+              },
+            ),
+            Visibility(
+              visible: controller.isDeleting.value,
+              child: Positioned.fill(
+                child: Container(
+                  color: Colors.black.withOpacity(0.6),
+                  child: Center(
+                    child: CircularProgressIndicator(color: Colors.white),
                   ),
                 ),
               ),
-              // controller.isDeleting.value ? Positioned.fill(
-              //   child: Container(
-              //     color: Colors.black.withOpacity(0.6),
-              //   ),
-              // ) : SizedBox()
-            ],
-          );
-        }
-      ),
+            ),
+          ],
+        );
+      }, onError: (error) {
+        return Center(child: Text(error.toString()));
+      }, onLoading: Center(child: CircularProgressIndicator())),
+      // body: Obx(() {
+      //     return Stack(
+      //       children: [
+      //         ListView.builder(
+      //           itemCount: controller.listOfEmployee.length,
+      //           itemBuilder: (context, index) {
+      //             var employee = controller.listOfEmployee[index];
+      //             return Card(
+      //               child: ListTile(
+      //                 leading: Icon(Icons.check),
+      //                 title: Text(employee.fullname()),
+      //                 subtitle: Text(employee.sex ?? "N/A"),
+      //                 trailing: IconButton(
+      //                   onPressed: (){
+      //                     controller.removeEmployee(index, employee.recNo!);
+      //                   }, 
+      //                   icon: Icon(Icons.delete, color: Colors.red[400])
+      //                 ),
+      //                 onTap: () {
+      //                   controller.selectEmployee(employee);
+      //                 },
+      //               )
+      //             );
+                  
+      //           },
+      //         ),
+      //         Visibility(
+      //           visible: controller.isDeleting.value,
+      //           child: Positioned.fill(
+      //             child: Container(
+      //               color: Colors.black.withOpacity(0.6),
+      //               child: Center(
+      //                 child: CircularProgressIndicator(color: Colors.white),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     );
+      //   }
+      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           showDialog(
